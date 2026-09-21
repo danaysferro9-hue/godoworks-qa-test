@@ -1,0 +1,6 @@
+node_modules/
+test-results/
+e2e/reports/
+playwright-report/
+.playwright-mcp/
+*.log
