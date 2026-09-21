@@ -28,3 +28,15 @@ disparar (eso sería evasión de un mecanismo anti-bot y no corresponde automati
 Esto no afecta el resultado esperado: la validación de campos obligatorios (incluida
 "Nombre de la empresa") se dispara del lado del cliente antes de evaluar el captcha, por lo
 que el mensaje "Faltan datos. Revisá los campos marcados." aparece de forma determinística.
+
+## Por qué Playwright
+
+Elegí Playwright por sobre Selenium o Cypress por lo que me facilita en el día a día de automatización:
+
+- **Auto-waiting real**: espera automáticamente a que un elemento esté visible, habilitado y estable antes de interactuar, sin `sleep()` ni waits arbitrarios. En este ejercicio eso importó concretamente al lidiar con el iframe de hCaptcha, que aparece y desaparece de forma dinámica.
+- **Soporte nativo de iframes y frames anidados** (`frameLocator`) — necesario acá porque tanto el checkbox del captcha como el reto visual viven dentro de iframes de terceros. Con Selenium eso implica cambiar de contexto manualmente (`switchTo().frame()`) en cada interacción.
+- **Un solo lenguaje/runtime para todo**: TypeScript tanto para la UI como para tests de API, sin depender de drivers de navegador externos (Playwright los gestiona con `npx playwright install`).
+- **Trazas y reportes integrados**: trace viewer, screenshot y video automáticos en fallos (`trace: 'on-first-retry'`, `screenshot: 'only-on-failure'`), sin plugins adicionales como sí requiere Selenium con Allure.
+- **Velocidad de ejecución**: al comunicarse por protocolo (CDP) en vez de por WebDriver/HTTP, los tests corren notablemente más rápido, lo que se nota en proyectos con cientos de tests (como GAC o Pantallas Llamadoras).
+
+Cypress lo descarté para este caso porque su modelo de un solo dominio/origen por test complica probar formularios con iframes cross-origin como hCaptcha. Selenium sigue siendo sólido pero implica más código boilerplate para lograr lo mismo (waits explícitos, manejo manual de frames).
