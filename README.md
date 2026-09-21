@@ -3,6 +3,8 @@
 Automatización E2E con Playwright + TypeScript del flujo:
 Soluciones → GDW Health → Solicitar demostración → completar formulario (sin "Nombre de la empresa") → Enviar consulta → verificar error "Faltan datos. Revisá los campos marcados."
 
+Reporte de incidencia del hallazgo observado en el paso 7: [`reporte-incidencia/REPORTE-BUG.md`](./reporte-incidencia/REPORTE-BUG.md)
+
 ## Requisitos
 - Node.js 18+
 
